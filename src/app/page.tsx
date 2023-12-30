@@ -1,11 +1,17 @@
 import Image from 'next/image'
 import { useEffect, useState, useRef  } from 'react'
-import OpenSeadragonViewer from './components/OpenSeaDragonViewer';
+import dynamic from 'next/dynamic';
+// import OpenSeadragonViewer from './components/OpenSeaDragonViewer';
 
+
+const DynamicOSD = dynamic (
+  () => import('./components/OpenSeadragonViewer'),
+  {ssr:false}
+)
 export default function Home() {
   return (
     <main>
-      <OpenSeadragonViewer></OpenSeadragonViewer>
+      <DynamicOSD></DynamicOSD>
     </main>
     // <main className="flex min-h-screen flex-col items-center justify-between p-24">
     //   <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
