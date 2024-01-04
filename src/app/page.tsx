@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import { useEffect, useState, useRef  } from 'react'
 import dynamic from 'next/dynamic';
+import Navbar from './components/Navbar';
 // import OpenSeadragonViewer from './components/OpenSeaDragonViewer';
 
 
@@ -11,7 +12,8 @@ const DynamicOSD = dynamic (
 export default function Home() {
   return (
     <main>
-      <DynamicOSD></DynamicOSD>
+      <Navbar />
+      <DynamicOSD />
     </main>
     // <main className="flex min-h-screen flex-col items-center justify-between p-24">
     //   <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
