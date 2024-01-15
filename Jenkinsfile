@@ -1,42 +1,35 @@
 pipeline {
+
   environment {
+    PATH = "/usr/local/bin:$PATH"
     dockerimagename = "tanreaper/dplab"
     dockerImage = ""
   }
   agent any
   stages {
-    stage('Checkout Source') {
+    stage('Git checkout') {
       steps {
-         git(branch: 'main', 
+        git(branch: 'main', 
             url: "https://github.com/tanreaper/dplab.git")
         }
     }
-    stage('Build image') {
-      steps{
-        script {
-          dockerImage = docker.build dockerimagename
-        }
-      }
-    }
-    stage('Pushing Image') {
-      environment {
-          registryCredential = 'dockerhub-credentials'
-           }
-      steps{
-        script {
-          docker.withRegistry( 'https://registry.hub.docker.com', registryCredential ) {
-            dockerImage.push("latest")
+    stage('Docker Build and Push') {
+      steps {
+        script{
+          withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId:'dockerhub-credentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable:'DOCKER_PASSWORD']]) {
+            dockerImage = docker.build dockerimagename
+            sh "docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD"
+            sh "docker push tanreaper/dplab"
           }
         }
       }
-    }
-    stage('Deploying React.js container to Kubernetes') {
+    } 
+    stage('Deploy to Minikube') {
       steps {
-        script {
-          sh 'kubectl apply -f Iaac/deployment.yaml'
-          sh 'kubectl apply -f Iaac/service.yaml'
-        }
+        sh 'kubectl apply -f deployment.yaml'
+        sh 'kubectl apply -f service.yaml'
       }
-    }
+    }  
   }
+
 }
