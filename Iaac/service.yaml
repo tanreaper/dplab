@@ -1,0 +1,14 @@
+#service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: dplab-service
+spec:
+  selector: 
+    app: dplab
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
+      

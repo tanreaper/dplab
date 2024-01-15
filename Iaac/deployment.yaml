@@ -1,0 +1,22 @@
+#deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment #The name of the Kubernetes Deployment to be created in the Kubernetes cluster
+  labels:
+    app: dplab
+spec:
+  replicas: 2 #The number of pods to be created in the Kubernetes cluster for the React.js application container
+  selector:
+    matchLabels:
+      app: dplab
+  template:
+    metadata:
+      labels:
+        app: dplab 
+    spec:
+      containers:
+      - name: dplab #The name of the react.js application container
+        image: tanreaper/dplab:latest #The Docker image for building the React.js application container
+        ports:
+        - containerPort: 3000 #The port for the React.js application   container
