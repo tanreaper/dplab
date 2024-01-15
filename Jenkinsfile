@@ -33,8 +33,8 @@ pipeline {
     stage('Deploying React.js container to Kubernetes') {
       steps {
         script {
-          kubernetesDeploy(configs: "Iaac/deployment.yaml", 
-                                         "Iaac/service.yaml")
+          sh 'kubectl apply -f Iaac/deployment.yaml'
+          sh 'kubectl apply -f Iaac/service.yaml'
         }
       }
     }
