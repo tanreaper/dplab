@@ -26,8 +26,8 @@ pipeline {
     } 
     stage('Deploy to Minikube') {
       steps {
-        sh 'kubectl apply -f Iaac/deployment.yaml'
-        sh 'kubectl apply -f Iaac/service.yaml'
+        sh '/usr/local/bin/kubectl apply -f Iaac/deployment.yaml'
+        sh '/usr/local/bin/kubectl apply -f Iaac/service.yaml'
       }
     }  
   }
